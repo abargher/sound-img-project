@@ -4,6 +4,7 @@
 <script src="https://tonejs.github.io/build/Tone.js"></script>
 <script src="scales.js"></script>
 <script src="node_modules/gamepad.js/gamepad.js"></script>
+<script type="text/javascript" src="https://rawgit.com/patriciogonzalezvivo/glslCanvas/master/dist/GlslCanvas.js"></script>
 <script>const { GamepadListener } = gamepad;</script>
 
 <div class="title">
@@ -11,6 +12,27 @@
 <h3>by: Alec Bargher</h3>
 <h4>Best experienced with a gamepad.</h4>
 </div>
+
+<canvas class="glslCanvas" data-fragment-url="shader.frag" width="500" height="500"></canvas>
+<!--
+  If you want to place GLSL code directly into this canvas, we can write it as
+  a string into the data-fragment attribute, like so:
+  <canvas class="glslCanvas" data-fragment="
+        #ifdef GL_ES
+        precision mediump float;
+        #endif
+
+        #define PI 3.1415926535
+        #define HALF_PI 1.57079632679
+
+        uniform vec2 u_resolution;
+        uniform float u_time;
+        uniform sampler2D u_tex0;
+        uniform vec2 u_tex0Resolution; 
+
+        // more code etc....
+  " width="500" height="500"></canvas>
+-->
 
 <div class="top-control">
   <div class="left-control">
