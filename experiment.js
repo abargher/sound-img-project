@@ -409,6 +409,8 @@ nn.get("#randomize").on("click", randomizeMelody);
 nn.get("#play-pause").on("input", () => {
   toggleScale();
   Tone.start();
+  var sandbox = window.glslCanvases[0];
+  sandbox.setUniform("bg_color",1,0.5,0,1.0);
 })
 
 
