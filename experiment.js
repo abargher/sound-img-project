@@ -21,7 +21,8 @@ let scale_pattern = [2,2,3,2,3]  // Pentatonic scale degrees
 
 /* Global variables */
 let baseVolume = defaultVolume;
-const enableDebug = false;
+const enableDebug = true;
+let sandbox;
 
 const effectState = {
   tempo : defaultTempo,
@@ -129,6 +130,8 @@ listener.on('gamepad:0:axis:0', event => {
   } = event.detail;
   controllerMap.axes[axis].value = value;
   printf(`axis ${axis} value = ${value}`)
+  let sandbox = window.glslCanvases[0];
+  sandbox.setUniform("left_axis_x", nn.map(value, -1, 1, 0, 1));
   // change distortion
   distort.distortion = Math.abs(value/8)
 });
@@ -142,6 +145,8 @@ listener.on('gamepad:0:axis:1', event => {
   } = event.detail;
   controllerMap.axes[axis].value = value;
   printf(`axis ${axis} value = ${value}`)
+  let sandbox = window.glslCanvases[0];
+  sandbox.setUniform("left_axis_y", nn.map(value, -1, 1, 0, 1));
   pitchShift.pitch = nn.map(value, 1, -1, -3, 3)
 });
 
@@ -199,6 +204,8 @@ listener.on('gamepad:0:button:7', event => {
   } = event.detail;
   controllerMap.buttons[button].pressed = pressed
   controllerMap.buttons[button].value = value
+
+
   if (pressed) {
     Tone.Transport.bpm.value = effectState.tempo + nn.map(value, 0, 1, 0, 30)
   } else {
@@ -385,6 +392,10 @@ listener.on('gamepad:0:button:9', event => {
   } = event.detail;
   controllerMap.buttons[button].pressed = pressed
   controllerMap.buttons[button].value = value
+
+  let sandbox = window.glslCanvases[0];
+  sandbox.setUniform();
+
   if (pressed) {
     toggleScale();
     let currPlay = nn.get("#play-pause").checked
