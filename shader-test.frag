@@ -2,25 +2,14 @@
 precision mediump float;
 #endif
 
-// uniform vec4 bg_color;
+uniform vec4 bg_color;
 
-// uniform float right_axis_x;
-// uniform float right_axis_y;
+uniform float right_axis_x;
+uniform float right_axis_y;
 
-// uniform float left_axis_x;
-// uniform float left_axis_y;
+uniform float left_axis_x;
+uniform float left_axis_y;
 
-// void main() {
-// 	vec2 st = gl_FragCoord.xy/u_resolution;
-// 	// gl_FragColor = vec4(abs(sin(u_time))*st.x,
-//     //                     (abs(sin(u_time)))*st.y,
-//     //                     abs(sin(u_time) * 0.25),
-//     //                     abs(sin(u_time) * 0.75));
-// 	gl_FragColor = vec4(left_axis_y,
-//                         bg_color.g,
-//                         left_axis_x,
-//                         1.0);
-// }
 
 
 
@@ -45,6 +34,18 @@ uniform float u_time;
 #define distfading 0.730
 #define saturation 0.850
 
+
+// void main() {
+// 	vec2 st = gl_FragCoord.xy/u_resolution;
+// 	// gl_FragColor = vec4(abs(sin(u_time))*st.x,
+//     //                     (abs(sin(u_time)))*st.y,
+//     //                     abs(sin(u_time) * 0.25),
+//     //                     abs(sin(u_time) * 0.75));
+// 	gl_FragColor = vec4(left_axis_y,
+//                         bg_color.g,
+//                         left_axis_x,
+//                         1.0);
+// }
 
 void main()
 {
