@@ -15,25 +15,6 @@
 
 <!-- example page: https://github.com/patriciogonzalezvivo/glslCanvas/blob/gh-pages/index.html -->
 <canvas class="glslCanvas" data-fragment-url="shader-test.frag" width="500" height="500"></canvas>
-<!--
-  If you want to place GLSL code directly into this canvas, we can write it as
-  a string into the data-fragment attribute, like so:
-  <canvas class="glslCanvas" data-fragment="
-        #ifdef GL_ES
-        precision mediump float;
-        #endif
-
-        #define PI 3.1415926535
-        #define HALF_PI 1.57079632679
-
-        uniform vec2 u_resolution;
-        uniform float u_time;
-        uniform sampler2D u_tex0;
-        uniform vec2 u_tex0Resolution; 
-
-        // more code etc....
-  " width="500" height="500"></canvas>
--->
 
 <div class="top-control">
   <div class="left-control">
