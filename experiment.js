@@ -397,8 +397,6 @@ listener.on('gamepad:0:button:9', event => {
   controllerMap.buttons[button].pressed = pressed
   controllerMap.buttons[button].value = value
 
-  // sandbox.setUniform();
-
   if (pressed) {
     toggleScale();
     let currPlay = nn.get("#play-pause").checked
