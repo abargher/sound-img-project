@@ -10,7 +10,8 @@ uniform float right_axis_y;
 uniform float left_axis_x;
 uniform float left_axis_y;
 
-
+uniform float rt;
+uniform float lt;
 
 
 // Star Nest by Pablo Roman Andrioli
