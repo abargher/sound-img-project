@@ -129,8 +129,8 @@ listener.on('gamepad:0:axis:0', event => {
       gamepad, // Native Gamepad object
   } = event.detail;
   controllerMap.axes[axis].value = value;
+  sandbox.setUniform("left_axis_x", value);
   printf(`axis ${axis} value = ${value}`)
-  sandbox.setUniform("left_axis_x", nn.map(value, -1, 1, 0, 1));
   // change distortion
   distort.distortion = Math.abs(value/8)
 });
@@ -143,8 +143,8 @@ listener.on('gamepad:0:axis:1', event => {
       gamepad, // Native Gamepad object
   } = event.detail;
   controllerMap.axes[axis].value = value;
+  sandbox.setUniform("left_axis_y", value);
   printf(`axis ${axis} value = ${value}`)
-  sandbox.setUniform("left_axis_y", nn.map(value, -1, 1, 0, 1));
   pitchShift.pitch = nn.map(value, 1, -1, -3, 3)
 });
 
@@ -157,6 +157,7 @@ listener.on('gamepad:0:axis:2', event => {
   } = event.detail;
   controllerMap.axes[axis].value = value;
   printf(`axis ${axis} value = ${value}`)
+  sandbox.setUniform("right_axis_x", value);
   pingPong.wet.value = nn.map(Math.abs(value), 0, 1, 0, 0.5)
 });
 
@@ -168,8 +169,11 @@ listener.on('gamepad:0:axis:3', event => {
       gamepad, // Native Gamepad object
   } = event.detail;
   controllerMap.axes[axis].value = value;
+  sandbox.setUniform("right_axis_y", value);
+
   printf(`axis ${axis} value = ${value}`)
   printf(`base volume is ${baseVolume}`)
+
   gain.gain.value = baseVolume + nn.map(value, 1, -1, -0.8, 0.8)
 });
 
@@ -184,6 +188,8 @@ listener.on('gamepad:0:button:6', event => {
   } = event.detail;
   controllerMap.buttons[button].pressed = pressed
   controllerMap.buttons[button].value = value
+  sandbox.setUniform("lt", value);
+
   if (pressed) {
     Tone.Transport.bpm.value = effectState.tempo - nn.map(value, 0, 1, 0, 30)
   } else {
@@ -202,7 +208,7 @@ listener.on('gamepad:0:button:7', event => {
   } = event.detail;
   controllerMap.buttons[button].pressed = pressed
   controllerMap.buttons[button].value = value
-
+  sandbox.setUniform("rt", value);
 
   if (pressed) {
     Tone.Transport.bpm.value = effectState.tempo + nn.map(value, 0, 1, 0, 30)
@@ -390,8 +396,6 @@ listener.on('gamepad:0:button:9', event => {
   } = event.detail;
   controllerMap.buttons[button].pressed = pressed
   controllerMap.buttons[button].value = value
-
-  // sandbox.setUniform();
 
   if (pressed) {
     toggleScale();
