@@ -4,14 +4,14 @@ precision mediump float;
 
 uniform vec4 bg_color;
 
-uniform float right_axis_x;
-uniform float right_axis_y;
+uniform float right_axis_x; //pingpong
+uniform float right_axis_y; //volume
 
-uniform float left_axis_x;
-uniform float left_axis_y;
+uniform float left_axis_x; //distortion
+uniform float left_axis_y; //pitch
 
-uniform float rt;
-uniform float lt;
+uniform float rt; //speed up
+uniform float lt; //slow down
 
 
 // Star Nest by Pablo Roman Andrioli
@@ -28,12 +28,12 @@ uniform float u_time;
 
 #define zoom   0.800
 #define tile   0.850
-#define speed  0.010
+#define speed  0.010 //affecting pitch
 
 #define brightness 0.0015
 #define darkmatter 0.300
 #define distfading 0.730
-#define saturation 0.850
+#define saturation 0.850 
 
 //**********************************************************
 //color shifting
