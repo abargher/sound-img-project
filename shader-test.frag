@@ -12,6 +12,7 @@ uniform float left_axis_y;
 
 uniform float rt;
 uniform float lt;
+float speed;
 
 
 // Star Nest by Pablo Roman Andrioli
@@ -28,7 +29,7 @@ uniform float u_time;
 
 #define zoom   0.800
 #define tile   0.850
-#define speed  0.010
+#define speed_scale  0.010
 
 #define brightness 0.0015
 #define darkmatter 0.300
@@ -52,6 +53,7 @@ uniform float u_time;
 
 void main()
 {
+    speed = (left_axis_y + 1.0) * speed_scale * -1.;
 	//get coords and direction
 	vec2 uv=gl_FragCoord.xy/u_resolution.xy-.5;
 	uv.y*=u_resolution.y/u_resolution.x;
@@ -59,9 +61,9 @@ void main()
 	float time=u_time*speed+.25;
 
 	//mouse rotation
-    float a1 = .5 + smoothstep(-2.0, 2.0, right_axis_y*2.);
+    float a1 = .25 + smoothstep(-2.0, 2.0, right_axis_y*2.);
 	//float a1=.5+right_axis_y*2.;
-    float a2 = .8 +smoothstep(-2.0, 2.0, right_axis_x*2.);
+    float a2 = .4 +smoothstep(-2.0, 2.0, right_axis_x*2.);
 	//float a2=.8+right_axis_y*2.;
 	mat2 rot1=mat2(cos(a1),sin(a1),-sin(a1),cos(a1));
 	mat2 rot2=mat2(cos(a2),sin(a2),-sin(a2),cos(a2));
