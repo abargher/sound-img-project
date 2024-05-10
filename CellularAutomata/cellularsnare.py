@@ -8,10 +8,12 @@ drums = s.new_midi_part("drums", "IAC Bus 1", start_channel=1, num_channels=1)
 
 snare_cells = np.array([[0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0]])
 
-while True:
+# while True:
+for _ in range(50):
     for cell in snare_cells[-1]:
         if cell:
             drums.play_note(38, 0.8, 0.25)
+            print("playing note!")
         else:
             wait(0.25)
     snare_cells = cpl.evolve(snare_cells, timesteps=2,

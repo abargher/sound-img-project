@@ -17,7 +17,7 @@ drums = s.new_midi_part("drums", "IAC Bus 1", start_channel=1, num_channels=1)
 # drums.send_midi_cc(16, 0)
 # exit()
 
-kick = np.array([[1, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0]])
+kick = np.array([[1, 0, 0, 0, 0, 1, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0]])
 snare = np.array([[0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0]])
 hihat = np.array([[0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1]])
 
