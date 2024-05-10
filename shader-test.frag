@@ -192,9 +192,9 @@ void main()
 //     // Scale UV based on aspect ratio
 //     uv.x *= u_resolution.x / u_resolution.y;
     
-//     // Apply joystick input to UV
-//     uv += vec2(rightJoystick_x, rightJoystick_y) * 0.1 * time; // Right joystick controls speed and direction
-//     uv += vec2(leftJoystick_x, leftJoystick_y) * 0.01 * time; // Left joystick controls starfield movement
+    // Apply joystick input to UV
+    // uv += vec2(rightJoystick_x, rightJoystick_y) * 0.1 * time; // Right joystick controls speed and direction
+    // uv += vec2(leftJoystick_x, leftJoystick_y) * 0.01 * time; // Left joystick controls starfield movement
     
 //     // Adjust zoom based on left joystick y-axis
 //     float zoomFactor = 1.0 - clamp(leftJoystick_y, -1.0, 1.0) * 0.5;
@@ -203,12 +203,12 @@ void main()
 //     // Calculate distance from center
 //     float dist = length(uv);
     
-//     // Create starfield effect with moving stars
-//     float starField = 0.0;
-//     float numStars = 100.0;
-//     for (float i = 0.0; i < numStars; i++) {
-//         // Random position for each star
-//         vec2 starPos = vec2(mod(23.0 * i, 1.0), mod(17.0 * i, 1.0));
+    // Create starfield effect with moving stars
+    // float starField = 0.0;
+    // float numStars = 100.0;
+    // for (float i = 0.0; i < numStars; i++) {
+    //     // Random position for each star
+    //     vec2 starPos = vec2(mod(23.0 * i, 1.0), mod(17.0 * i, 1.0));
         
 //         // Calculate distance from star
 //         float starDist = length(uv - starPos * 2.0);

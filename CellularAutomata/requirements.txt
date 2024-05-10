@@ -1,0 +1,10 @@
+numpy
+cellpylib
+scamp
+python-rtmidi
+Fluidsynth
+pynput 
+pyfluidsynth
+abjad
+scamp_extensions
+
