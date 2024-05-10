@@ -1,0 +1,6 @@
+numpy
+cellpylib
+scamp
+python-rtmidi
+Fluidsynth
+pynput 
