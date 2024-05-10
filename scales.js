@@ -78,7 +78,7 @@ function getNote (degree, octaveOffset, scale) {
   return pitch + `${octave}`
 }
 
-function play (time, instr, scale) {
+function play(time, instr, scale) {
   const index = scaleState.step % scaleState.sequence.length
   const note = scaleState.sequence[index]
   if (note.play) {

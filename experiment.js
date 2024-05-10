@@ -155,9 +155,11 @@ listener.on('gamepad:0:axis:2', event => {
       value, // Current value: Number between -1 and 1. Float in analog mode, integer otherwise.
       gamepad, // Native Gamepad object
   } = event.detail;
-  controllerMap.axes[axis].value = value;
   printf(`axis ${axis} value = ${value}`)
-  sandbox.setUniform("right_axis_x", value);
+  var old_val = controllerMap.axes[axis].value;
+  var new_val = 0.99 * (old_val) + 0.01 * value;
+  sandbox.setUniform("right_axis_x", new_val);
+  controllerMap.axes[axis].value = new_val;
   pingPong.wet.value = nn.map(Math.abs(value), 0, 1, 0, 0.5)
 });
 
@@ -168,8 +170,10 @@ listener.on('gamepad:0:axis:3', event => {
       value, // Current value: Number between -1 and 1. Float in analog mode, integer otherwise.
       gamepad, // Native Gamepad object
   } = event.detail;
-  controllerMap.axes[axis].value = value;
-  sandbox.setUniform("right_axis_y", value);
+  var old_val = controllerMap.axes[axis].value;
+  var new_val = 0.99 * (old_val) + 0.01 * value;
+  sandbox.setUniform("right_axis_y", new_val);
+  controllerMap.axes[axis].value = new_val;
 
   printf(`axis ${axis} value = ${value}`)
   printf(`base volume is ${baseVolume}`)
@@ -490,4 +494,9 @@ window.onload = () => {
 };
 
 Tone.Transport.bpm.value = defaultTempo
+function play_note_cb(time) {
+  play(time, synth, effectState.scale);
+
+
+}
 Tone.Transport.scheduleRepeat(time => play(time, synth, effectState.scale), '16n')
