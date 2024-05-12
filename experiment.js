@@ -204,9 +204,11 @@ listener.on('gamepad:0:button:6', event => {
       pressed, // Native GamepadButton pressed value: Boolean.
       gamepad, // Native Gamepad object
   } = event.detail;
+  const old_val = controllerMap.buttons[button].value;
+  const new_val = 0.30 * old_val + 0.70 * value;
   controllerMap.buttons[button].pressed = pressed
-  controllerMap.buttons[button].value = value
-  sandbox.setUniform("lt", value);
+  controllerMap.buttons[button].value = new_val
+  sandbox.setUniform("lt", new_val);
 
   if (pressed) {
     Tone.Transport.bpm.value = effectState.tempo - nn.map(value, 0, 1, 0, 30)
@@ -224,9 +226,11 @@ listener.on('gamepad:0:button:7', event => {
       pressed, // Native GamepadButton pressed value: Boolean.
       gamepad, // Native Gamepad object
   } = event.detail;
+  const old_val = controllerMap.buttons[button].value;
+  const new_val = 0.30 * old_val + 0.70 * value;
   controllerMap.buttons[button].pressed = pressed
-  controllerMap.buttons[button].value = value
-  sandbox.setUniform("rt", value);
+  controllerMap.buttons[button].value = new_val
+  sandbox.setUniform("rt", new_val);
 
   if (pressed) {
     Tone.Transport.bpm.value = effectState.tempo + nn.map(value, 0, 1, 0, 30)
@@ -518,7 +522,7 @@ window.onload = () => {
     const new_value = 0.87 * old_value + 0.13 * val;
     meter_value = new_value;
     sandbox.setUniform("note_pulse", new_value + 25.0);
-    console.log("uniform value: " + new_value)
+    printf("uniform value: " + new_value)
   }, 1);
 };
 
