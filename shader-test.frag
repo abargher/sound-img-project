@@ -33,10 +33,12 @@ uniform float u_time;
 #define tile   0.850
 #define speed_scale  0.010 //affecting pitch
 
-#define brightness 0.0015
+#define base_brightness 0.002
+float brightness;
 #define darkmatter 0.300
 #define distfading 0.730
-#define saturation 0.850 
+#define base_saturation 0.850 
+float saturation;
 
 //**********************************************************
 //color shifting
@@ -55,7 +57,12 @@ uniform float u_time;
 
 void main()
 {
+	// set scaled values
     speed = (left_axis_y + 1.0) * speed_scale * -1.;
+	brightness = (-1.0 * right_axis_y) * 0.0015 + base_brightness;
+	saturation = abs(left_axis_x) * 0.8 + base_saturation;
+
+
 	//get coords and direction
 	vec2 uv=gl_FragCoord.xy/u_resolution.xy-.5;
 	uv.y*=u_resolution.y/u_resolution.x;
