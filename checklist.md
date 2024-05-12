@@ -1,6 +1,6 @@
-- set pitch to effect contrast?? 
+- set pitch to affect contrast?? 
 - set speed up and down buttons DONE
-- set distortion to effect saturation DONE
-- find a way for melody to effect visuals ALMOST DONE
+- set distortion to affect saturation DONE
+- find a way for melody to affect visuals ALMOST DONE
 - clean up html
 - add info page in the beginning
