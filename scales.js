@@ -84,6 +84,7 @@ function play(time, instr, scale) {
   if (note.play) {
     pitch = getNote(note.degree, note.octaveOffset, scale);
     instr.triggerAttackRelease(pitch, note.duration, time);
+    sandbox.setUniform("note_pulse", 1.0);
   }
   scaleState.step++
   return index;

@@ -128,8 +128,10 @@ listener.on('gamepad:0:axis:0', event => {
       value, // Current value: Number between -1 and 1. Float in analog mode, integer otherwise.
       gamepad, // Native Gamepad object
   } = event.detail;
-  controllerMap.axes[axis].value = value;
-  sandbox.setUniform("left_axis_x", value);
+  var old_val = controllerMap.axes[axis].value;
+  var new_val = 0.85 * (old_val) + 0.15 * value;
+  controllerMap.axes[axis].value = new_val;
+  sandbox.setUniform("left_axis_x", new_val);
   printf(`axis ${axis} value = ${value}`)
   // change distortion
   distort.distortion = Math.abs(value/8)
@@ -142,8 +144,12 @@ listener.on('gamepad:0:axis:1', event => {
       value, // Current value: Number between -1 and 1. Float in analog mode, integer otherwise.
       gamepad, // Native Gamepad object
   } = event.detail;
-  controllerMap.axes[axis].value = value;
+  // var old_val = controllerMap.axes[axis].value;
+  // var new_val = 0.85 * (old_val) + 0.15 * value;
+  // var new_val2 = 0.8 * new_val + 0.2 * value;
   sandbox.setUniform("left_axis_y", value);
+  controllerMap.axes[axis].value = value;
+
   printf(`axis ${axis} value = ${value}`)
   pitchShift.pitch = nn.map(value, 1, -1, -3, 3)
 });
