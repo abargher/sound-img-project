@@ -252,9 +252,10 @@ listener.on('gamepad:0:button:12', event => {
   controllerMap.buttons[button].value = value
   if (pressed) {
     let currOctave = Number (nn.get("#octaves").value.slice(-1))
-    let newOctave = "octave" + (Math.min(6, currOctave + 1))
+    let newOctave_num = (Math.min(6, currOctave + 1));
+    let newOctave = "octave" + newOctave_num;
     nn.get("#octaves").value = newOctave
-    sandbox.setUniform("octave", newOctave);
+    sandbox.setUniform("octave", newOctave_num);
   }
 });
 
@@ -271,9 +272,10 @@ listener.on('gamepad:0:button:13', event => {
   controllerMap.buttons[button].value = value
   if (pressed) {
     let currOctave = Number (nn.get("#octaves").value.slice(-1))
-    let newOctave = "octave" + (Math.max(1, currOctave - 1))
+    let newOctave_num = (Math.max(1, currOctave - 1));
+    let newOctave = "octave" + newOctave_num;
     nn.get("#octaves").value = newOctave
-    sandbox.setUniform("octave", newOctave);
+    sandbox.setUniform("octave", newOctave_num);
   }
 });
 
