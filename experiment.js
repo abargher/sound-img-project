@@ -67,6 +67,16 @@ const pingPong = new Tone.PingPongDelay("8n", 0.2);
 
 const synth = new Tone.PolySynth().chain(pitchShift, distort, pingPong, gain)
 printf(synth.options.envelope)
+
+// volume meter
+const meter = new Tone.Meter();
+synth.connect(meter);
+setInterval(() => {
+  const val = meter.getValue();
+  sandbox.setUniform("note_pulse", val);
+  // console.log("uniform value: " + val)
+}, 1);
+
 const defaultAttack = synth.options.envelope.attack;
 const defaultRelease = synth.options.envelope.release;
 const defaultDecay = synth.options.envelope.decay;
