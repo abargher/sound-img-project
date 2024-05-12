@@ -33,7 +33,8 @@ uniform float u_time;
 
 #define zoom   0.800
 #define tile   0.850
-#define speed_scale  0.010
+#define base_speed  0.010
+#define speed_scale 0.005
 
 #define base_brightness 0.002
 float brightness;
@@ -61,7 +62,8 @@ void main()
 {
 	// set scaled values
     // speed = (left_axis_y + 1.0) * speed_scale * -1.;
-	speed = speed_scale;
+	speed = (((rt) - (lt)) + base_speed) * speed_scale;
+	
 	brightness = (-1.0 * right_axis_y) * 0.0015 + base_brightness;
 	saturation = abs(left_axis_x) * 0.8 + base_saturation;
 	float fade = max(0.25, note_pulse);
