@@ -69,13 +69,9 @@ const synth = new Tone.PolySynth().chain(pitchShift, distort, pingPong, gain)
 printf(synth.options.envelope)
 
 // volume meter
-const meter = new Tone.Meter();
+const meter = new Tone.Meter(0.25);
+let meter_value = Math.max(-1000, meter.getValue());
 synth.connect(meter);
-setInterval(() => {
-  const val = meter.getValue();
-  sandbox.setUniform("note_pulse", val);
-  // console.log("uniform value: " + val)
-}, 1);
 
 const defaultAttack = synth.options.envelope.attack;
 const defaultRelease = synth.options.envelope.release;
@@ -516,6 +512,14 @@ nn.get("#keySets").on("input", updateKey)
 window.onload = () => {
   sandbox = window.glslCanvases[0];
   console.log(sandbox);
+  setInterval(() => {
+    const val = Math.max(-1000, meter.getValue());
+    const old_value = meter_value;
+    const new_value = 0.87 * old_value + 0.13 * val;
+    meter_value = new_value;
+    sandbox.setUniform("note_pulse", new_value + 25.0);
+    console.log("uniform value: " + new_value)
+  }, 1);
 };
 
 Tone.Transport.bpm.value = defaultTempo
