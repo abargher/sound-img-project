@@ -10,9 +10,11 @@ uniform float right_axis_y; //volume
 uniform float left_axis_x; //distortion
 uniform float left_axis_y; //pitch
 
-uniform float rt; //speed up
+uniform float rt; //speed up 
 uniform float lt; //slow down
 float speed;
+
+uniform float note_pulse; //note
 
 uniform int scale_degree;  // degree of currently playing note
 uniform int octave;  // base octave offset for all notes
@@ -61,6 +63,7 @@ void main()
     speed = (left_axis_y + 1.0) * speed_scale * -1.;
 	brightness = (-1.0 * right_axis_y) * 0.0015 + base_brightness;
 	saturation = abs(left_axis_x) * 0.8 + base_saturation;
+	float fade = note_pulse;
 
 
 	//get coords and direction
@@ -84,7 +87,8 @@ void main()
 	from.xy*=rot2;
 
 	//volumetric rendering
-	float s=0.1,fade=1.;
+	float s=0.1;
+	//float fade=1.;
 	vec3 v=vec3(0.);
 	for (int r=0; r<volsteps; r++) {
 		vec3 p=from+s*dir*.5;
@@ -106,5 +110,6 @@ void main()
 	}
 	v=mix(vec3(length(v)),v,saturation); //color adjust
 	gl_FragColor = vec4(v*.01,1.);
+	note_pulse = max(.25, note_pulse - .0005);
 
 }
