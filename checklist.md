@@ -1,5 +1,6 @@
-- set pitch to effect brightness as well as speed
-- set distortion to effect saturation
-- find a way for melody to effect visuals
+- set pitch to effect contrast?? 
+- set speed up and down buttons DONE
+- set distortion to effect saturation DONE
+- find a way for melody to effect visuals ALMOST DONE
 - clean up html
 - add info page in the beginning
