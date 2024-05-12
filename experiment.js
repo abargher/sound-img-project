@@ -157,9 +157,10 @@ listener.on('gamepad:0:axis:2', event => {
   } = event.detail;
   printf(`axis ${axis} value = ${value}`)
   var old_val = controllerMap.axes[axis].value;
-  var new_val = 0.99 * (old_val) + 0.01 * value;
-  sandbox.setUniform("right_axis_x", new_val);
-  controllerMap.axes[axis].value = new_val;
+  var new_val = 0.85 * (old_val) + 0.15 * value;
+  var new_val2 = 0.8 * new_val + 0.2 * value;
+  sandbox.setUniform("right_axis_x", new_val2);
+  controllerMap.axes[axis].value = new_val2;
   pingPong.wet.value = nn.map(Math.abs(value), 0, 1, 0, 0.5)
 });
 
@@ -171,9 +172,10 @@ listener.on('gamepad:0:axis:3', event => {
       gamepad, // Native Gamepad object
   } = event.detail;
   var old_val = controllerMap.axes[axis].value;
-  var new_val = 0.99 * (old_val) + 0.01 * value;
-  sandbox.setUniform("right_axis_y", new_val);
-  controllerMap.axes[axis].value = new_val;
+  var new_val = 0.85 * (old_val) + 0.15 * value;
+  var new_val2 = 0.8 * new_val + 0.2 * value;
+  sandbox.setUniform("right_axis_y", new_val2);
+  controllerMap.axes[axis].value = new_val2;
 
   printf(`axis ${axis} value = ${value}`)
   printf(`base volume is ${baseVolume}`)
@@ -236,6 +238,7 @@ listener.on('gamepad:0:button:12', event => {
     let currOctave = Number (nn.get("#octaves").value.slice(-1))
     let newOctave = "octave" + (Math.min(6, currOctave + 1))
     nn.get("#octaves").value = newOctave
+    sandbox.setUniform("octave", newOctave);
   }
 });
 
@@ -254,6 +257,7 @@ listener.on('gamepad:0:button:13', event => {
     let currOctave = Number (nn.get("#octaves").value.slice(-1))
     let newOctave = "octave" + (Math.max(1, currOctave - 1))
     nn.get("#octaves").value = newOctave
+    sandbox.setUniform("octave", newOctave);
   }
 });
 
@@ -479,9 +483,14 @@ nn.get("#toggleHelp").on("click", () => {
   if (visible == 'hidden') {
     nn.get("#toggleHelp").textContent = "hide controls help";
     nn.get("#instructions").style.visibility = 'visible'
+    // nn.get("#title").style.visibility = 'visible'
+    // nn.get("#instructions").style.visibility = 'visible'
+    // nn.get("#instructions").style.visibility = 'visible'
   } else {
     nn.get("#toggleHelp").textContent = "show controls help";
     nn.get("#instructions").style.visibility = 'hidden'
+    // nn.get("#instructions").style.visibility = 'hidden'
+    // nn.get("#instructions").style.visibility = 'hidden'
   }
 
 })
@@ -495,8 +504,8 @@ window.onload = () => {
 
 Tone.Transport.bpm.value = defaultTempo
 function play_note_cb(time) {
-  play(time, synth, effectState.scale);
-
-
+  let scale_deg = play(time, synth, effectState.scale);
+  sandbox.setUniform("scale_degree", scale_deg);
 }
-Tone.Transport.scheduleRepeat(time => play(time, synth, effectState.scale), '16n')
+
+Tone.Transport.scheduleRepeat(time => play_note_cb(time), '16n')
