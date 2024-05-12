@@ -58,7 +58,8 @@ float saturation;
 void main()
 {
 	// set scaled values
-    speed = (left_axis_y + 1.0) * speed_scale * -1.;
+    // speed = (left_axis_y + 1.0) * speed_scale * -1.;
+	speed = speed_scale;
 	brightness = (-1.0 * right_axis_y) * 0.0015 + base_brightness;
 	saturation = abs(left_axis_x) * 0.8 + base_saturation;
 
@@ -84,7 +85,7 @@ void main()
 	from.xy*=rot2;
 
 	//volumetric rendering
-	float s=0.1,fade=1.;
+	float s=0.1,fade=0.25;
 	vec3 v=vec3(0.);
 	for (int r=0; r<volsteps; r++) {
 		vec3 p=from+s*dir*.5;
