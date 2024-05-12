@@ -86,6 +86,7 @@ function play(time, instr, scale) {
     instr.triggerAttackRelease(pitch, note.duration, time);
   }
   scaleState.step++
+  return index;
 }
 
 function randomNote() {

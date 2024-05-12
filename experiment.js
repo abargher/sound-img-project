@@ -236,6 +236,7 @@ listener.on('gamepad:0:button:12', event => {
     let currOctave = Number (nn.get("#octaves").value.slice(-1))
     let newOctave = "octave" + (Math.min(6, currOctave + 1))
     nn.get("#octaves").value = newOctave
+    sandbox.setUniform("octave", newOctave);
   }
 });
 
@@ -254,6 +255,7 @@ listener.on('gamepad:0:button:13', event => {
     let currOctave = Number (nn.get("#octaves").value.slice(-1))
     let newOctave = "octave" + (Math.max(1, currOctave - 1))
     nn.get("#octaves").value = newOctave
+    sandbox.setUniform("octave", newOctave);
   }
 });
 
@@ -479,9 +481,14 @@ nn.get("#toggleHelp").on("click", () => {
   if (visible == 'hidden') {
     nn.get("#toggleHelp").textContent = "hide controls help";
     nn.get("#instructions").style.visibility = 'visible'
+    // nn.get("#title").style.visibility = 'visible'
+    // nn.get("#instructions").style.visibility = 'visible'
+    // nn.get("#instructions").style.visibility = 'visible'
   } else {
     nn.get("#toggleHelp").textContent = "show controls help";
     nn.get("#instructions").style.visibility = 'hidden'
+    // nn.get("#instructions").style.visibility = 'hidden'
+    // nn.get("#instructions").style.visibility = 'hidden'
   }
 
 })
@@ -495,8 +502,8 @@ window.onload = () => {
 
 Tone.Transport.bpm.value = defaultTempo
 function play_note_cb(time) {
-  play(time, synth, effectState.scale);
-
-
+  let scale_deg = play(time, synth, effectState.scale);
+  sandbox.setUniform("scale_degree", scale_deg);
 }
-Tone.Transport.scheduleRepeat(time => play(time, synth, effectState.scale), '16n')
+
+Tone.Transport.scheduleRepeat(time => play_note_cb(time), '16n')

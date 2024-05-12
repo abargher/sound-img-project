@@ -14,6 +14,8 @@ uniform float rt; //speed up
 uniform float lt; //slow down
 float speed;
 
+uniform int scale_degree;  // degree of currently playing note
+uniform int octave;  // base octave offset for all notes
 
 // Star Nest by Pablo Roman Andrioli
 // License: MIT
