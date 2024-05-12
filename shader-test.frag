@@ -62,7 +62,7 @@ void main()
 {
 	// set scaled values
     // speed = (left_axis_y + 1.0) * speed_scale * -1.;
-	speed = (((rt) - (lt)) + base_speed) * speed_scale;
+	speed = base_speed + (rt - lt) * speed_scale;
 	
 	brightness = (-1.0 * right_axis_y) * 0.0015 + base_brightness;
 	saturation = abs(left_axis_x) * 0.8 + base_saturation;
