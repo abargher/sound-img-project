@@ -20,6 +20,17 @@ function array_avg(arr, start, end) {
   return total;
 }
 
+function toggleControlDisplay() {
+  const visible = nn.get("#control-page").style.visibility;
+  if (visible == 'hidden') {
+    nn.get('#control-page').style.visibility = 'visible';
+    // document.getElementsByClassName("button").style.visibility = 'visible';
+  } else {
+    nn.get('#control-page').style.visibility = 'hidden';
+    // document.getElementsByClassName("button").style.visibility = 'hidden';
+  }
+}
+
 /* Global constants */
 const defaultTempo = 90;
 const defaultNoteCount = 16;
@@ -78,11 +89,13 @@ printf(synth.options.envelope)
 
 // volume meter
 const meter = new Tone.Meter(0.25);
+meter.normalRange = true;
 synth.connect(meter);
 let meter_value = Math.max(-1000, meter.getValue());
 
 // FFT analyzer
-const fft = new Tone.Analyser('fft', 1024);
+const fft = new Tone.FFT(1024);
+fft.normalRange = true;
 synth.connect(fft);
 
 const defaultAttack = synth.options.envelope.attack;
@@ -387,7 +400,8 @@ listener.on('gamepad:0:button:2', event => {
 });
 
 
-listener.on('gamepad:0:button:3', event => {
+// Left and Right bumper show/hide screen controls
+listener.on('gamepad:0:button:4', event => {
   const {
       index,// Gamepad index: Number [0-3].
       button, // Button index: Number [0-N].
@@ -395,12 +409,22 @@ listener.on('gamepad:0:button:3', event => {
       pressed, // Native GamepadButton pressed value: Boolean.
       gamepad, // Native Gamepad object
   } = event.detail;
-  controllerMap.buttons[button].pressed = pressed
-  controllerMap.buttons[button].value = value
   if (pressed) {
-    nn.get("#keys").value = currKeySet.up
-    updateKey();
+    toggleControlDisplay();
   }
+});
+listener.on('gamepad:0:button:5', event => {
+  const {
+      index,// Gamepad index: Number [0-3].
+      button, // Button index: Number [0-N].
+      value, // Current value: Number between 0 and 1. Float in analog mode, integer otherwise.
+      pressed, // Native GamepadButton pressed value: Boolean.
+      gamepad, // Native Gamepad object
+  } = event.detail;
+  if (pressed) {
+    toggleControlDisplay();
+  }
+
 });
 
 function randomizeMelody() {
@@ -537,12 +561,12 @@ window.onload = () => {
 
   setInterval(() => {
     // volume meter refresh
-    const val = Math.max(-1000, meter.getValue());
+    const val = meter.getValue();
     const old_value = meter_value;
     const new_value = 0.87 * old_value + 0.13 * val;
     meter_value = new_value;
-    sandbox.setUniform("note_pulse", new_value + 25.0);
-    printf("note_pulse value: " + new_value)
+    sandbox.setUniform("note_pulse", new_value);
+    // printf("note_pulse value: " + new_value)
 
     // FFT analysis
     const freqs = fft.getValue();
@@ -554,15 +578,7 @@ window.onload = () => {
 
 document.addEventListener('keyup', event => {
   if (event.code === 'Space') {
-    //control-page
-    const visible = nn.get("#control-page").style.visibility;
-    if (visible == 'hidden') {
-      nn.get('#control-page').style.visibility = 'visible';
-      document.getElementsByClassName("button").style.visibility = 'visible';
-    } else {
-      nn.get('#control-page').style.visibility = 'hidden';
-      document.getElementsByClassName("button").style.visibility = 'hidden';
-    }
+    toggleControlDisplay();
   }
 });
 
