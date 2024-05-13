@@ -2,8 +2,6 @@
 precision mediump float;
 #endif
 
-uniform vec4 bg_color;
-
 uniform float right_axis_x; //pingpong
 uniform float right_axis_y; //volume
 
@@ -47,21 +45,6 @@ float brightness;
 #define distfading 0.730
 #define base_saturation 0.850 
 float saturation;
-
-//**********************************************************
-//color shifting
-// void main() {
-// 	vec2 st = gl_FragCoord.xy/u_resolution;
-// 	// gl_FragColor = vec4(abs(sin(u_time))*st.x,
-//     //                     (abs(sin(u_time)))*st.y,
-//     //                     abs(sin(u_time) * 0.25),
-//     //                     abs(sin(u_time) * 0.75));
-// 	gl_FragColor = vec4(left_axis_y,
-//                         bg_color.g,
-//                         left_axis_x,
-//                         1.0);
-// }
-//**********************************************************
 
 void main()
 {
@@ -117,6 +100,5 @@ void main()
 	}
 	v=mix(vec3(length(v)),v,saturation); //color adjust
 	gl_FragColor = vec4(v*.01,1.);
-	// note_pulse = max(.25, note_pulse - .0005);
 
 }
