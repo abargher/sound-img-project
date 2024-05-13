@@ -54,7 +54,7 @@ void main()
 	
 	brightness = (-1.0 * right_axis_y) * 0.0015 + base_brightness;
 	saturation = abs(left_axis_x) * 0.8 + base_saturation;
-	float fade = max(0.1, note_pulse + 0.3);
+	float fade = max(0.15, note_pulse + 0.3);
 
 	//get coords and direction
 	vec2 uv=gl_FragCoord.xy/u_resolution.xy-.5;
@@ -65,7 +65,7 @@ void main()
 	//mouse rotation
     float a1 = .25 + 0.05*smoothstep(-1.0, 1.0, right_axis_y);
 	// float a1=.5+right_axis_y*2.;
-    float a2 = .4 + 0.05*  smoothstep(-1.0, 1.0, right_axis_x);
+    float a2 = .4 + 0.05*smoothstep(-1.0, 1.0, right_axis_x);
 	// float a2=.8+right_axis_y*2.;
 	mat2 rot1=mat2(cos(a1),sin(a1),-sin(a1),cos(a1));
 	mat2 rot2=mat2(cos(a2),sin(a2),-sin(a2),cos(a2));

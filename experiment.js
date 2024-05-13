@@ -90,13 +90,13 @@ printf(synth.options.envelope)
 // volume meter
 const meter = new Tone.Meter(0.25);
 meter.normalRange = true;
-synth.connect(meter);
+gain.connect(meter);
 let meter_value = Math.max(-1000, meter.getValue());
 
 // FFT analyzer
 const fft = new Tone.FFT(1024);
 fft.normalRange = true;
-synth.connect(fft);
+gain.connect(fft);
 
 const defaultAttack = synth.options.envelope.attack;
 const defaultRelease = synth.options.envelope.release;
@@ -199,6 +199,30 @@ listener.on('gamepad:0:axis:2', event => {
   sandbox.setUniform("right_axis_x", new_val2);
   controllerMap.axes[axis].value = new_val2;
   pingPong.wet.value = nn.map(Math.abs(value), 0, 1, 0, 0.5)
+});
+
+// Left stick click
+listener.on('gamepad:0:button:10', event => {
+  const {
+      index,// Gamepad index: Number [0-3].
+      axis, // Axis index: Number [0-N].
+      value, // Current value: Number between -1 and 1. Float in analog mode, integer otherwise.
+      gamepad, // Native Gamepad object
+  } = event.detail;
+  controllerMap.axes[0].value = 0;
+  controllerMap.axes[1].value = 0;
+});
+
+// Right stick click
+listener.on('gamepad:0:button:11', event => {
+  const {
+      index,// Gamepad index: Number [0-3].
+      axis, // Axis index: Number [0-N].
+      value, // Current value: Number between -1 and 1. Float in analog mode, integer otherwise.
+      gamepad, // Native Gamepad object
+  } = event.detail;
+  controllerMap.axes[2].value = 0;
+  controllerMap.axes[3].value = 0;
 });
 
 listener.on('gamepad:0:axis:3', event => {
