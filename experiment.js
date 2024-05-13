@@ -12,6 +12,14 @@ function mod(n, m) {
   return ((n % m) + m) % m;
 }
 
+function array_avg(arr, start, end) {
+  let total = 0;
+  for (let i = start; i < end; i++) {
+    total += arr[i];
+  }
+  return total;
+}
+
 /* Global constants */
 const defaultTempo = 90;
 const defaultNoteCount = 16;
@@ -70,8 +78,12 @@ printf(synth.options.envelope)
 
 // volume meter
 const meter = new Tone.Meter(0.25);
-let meter_value = Math.max(-1000, meter.getValue());
 synth.connect(meter);
+let meter_value = Math.max(-1000, meter.getValue());
+
+// FFT analyzer
+const fft = new Tone.Analyser('fft', 1024);
+synth.connect(fft);
 
 const defaultAttack = synth.options.envelope.attack;
 const defaultRelease = synth.options.envelope.release;
@@ -497,16 +509,16 @@ nn.get("#keys").on("input", () => {
 })
 
 nn.get("#toggleHelp").on("click", () => {
-  let visible = nn.get("#instructions").style.visibility
-  if (visible == 'hidden') {
+  let visible = nn.get("#instructions").style.display
+  if (visible == 'none') {
     nn.get("#toggleHelp").textContent = "hide controls help";
-    nn.get("#instructions").style.visibility = 'visible'
+    nn.get("#instructions").style.display = 'block'
     // nn.get("#title").style.visibility = 'visible'
     // nn.get("#instructions").style.visibility = 'visible'
     // nn.get("#instructions").style.visibility = 'visible'
   } else {
     nn.get("#toggleHelp").textContent = "show controls help";
-    nn.get("#instructions").style.visibility = 'hidden'
+    nn.get("#instructions").style.display = 'none'
     // nn.get("#instructions").style.visibility = 'hidden'
     // nn.get("#instructions").style.visibility = 'hidden'
   }
@@ -516,17 +528,43 @@ nn.get("#toggleHelp").on("click", () => {
 nn.get("#keySets").on("input", updateKey)
 
 window.onload = () => {
-  sandbox = window.glslCanvases[0];
+  sandbox = window.glslCanvases[0]
   console.log(sandbox);
+
+  // set canvas size
+  nn.get("#shadercanvas").width = document.body.clientWidth;
+  nn.get("#shadercanvas").height = document.body.clientHeight;
+
   setInterval(() => {
+    // volume meter refresh
     const val = Math.max(-1000, meter.getValue());
     const old_value = meter_value;
     const new_value = 0.87 * old_value + 0.13 * val;
     meter_value = new_value;
     sandbox.setUniform("note_pulse", new_value + 25.0);
-    printf("uniform value: " + new_value)
+    printf("note_pulse value: " + new_value)
+
+    // FFT analysis
+    const freqs = fft.getValue();
+    // printf(freqs);
+
+
   }, 1);
 };
+
+document.addEventListener('keyup', event => {
+  if (event.code === 'Space') {
+    //control-page
+    const visible = nn.get("#control-page").style.visibility;
+    if (visible == 'hidden') {
+      nn.get('#control-page').style.visibility = 'visible';
+      document.getElementsByClassName("button").style.visibility = 'visible';
+    } else {
+      nn.get('#control-page').style.visibility = 'hidden';
+      document.getElementsByClassName("button").style.visibility = 'hidden';
+    }
+  }
+});
 
 Tone.Transport.bpm.value = defaultTempo
 function play_note_cb(time) {

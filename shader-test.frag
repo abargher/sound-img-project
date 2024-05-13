@@ -19,6 +19,11 @@ uniform float note_pulse; //note
 uniform int scale_degree;  // degree of currently playing note
 uniform int octave;  // base octave offset for all notes
 
+// Frequency analysis
+uniform float bass;
+uniform float mids;
+uniform float highs;
+
 // Star Nest by Pablo Roman Andrioli
 // License: MIT
 uniform vec2 u_resolution;

@@ -1,5 +1,6 @@
 html {
-  background-color: rgb(139, 204, 240);
+  background-color: #1e1e1e;
+  color: #ffffff;
 }
 
 .glslCanvas {
@@ -24,7 +25,7 @@ html {
   text-align: center;
   font-family: sans-serif;
   font-size: 20px;
-  color: #1d1c1c;
+  color: #afafaf;
 }
 .instructions {
   padding-left: 20px;
@@ -78,6 +79,7 @@ select {
   height: 40px;
 }
 .controls-button {
+  scale: 90%;
   margin: auto;
   width: 20%;
   position: relative;
