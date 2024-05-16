@@ -586,10 +586,10 @@ window.onload = () => {
   setInterval(() => {
     // volume meter refresh
     const val = meter.getValue();
-    const old_value = meter_value;
-    const new_value = 0.87 * old_value + 0.13 * val;
-    meter_value = new_value;
-    sandbox.setUniform("note_pulse", new_value);
+    // const old_value = meter_value;
+    // const new_value = 0.87 * old_value + 0.13 * val;
+    meter_value = val;
+    sandbox.setUniform("note_pulse", val);
     // printf("note_pulse value: " + new_value)
 
     // FFT analysis

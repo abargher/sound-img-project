@@ -60,7 +60,7 @@ void main()
 	
 	brightness = (-1.0 * right_axis_y) * 0.0015 + base_brightness;
 	saturation = abs(left_axis_x) * 0.8 + base_saturation;
-	float fade = max(0.15, note_pulse + 0.3);
+	float fade = note_pulse + 0.3;
 
 	//get coords and direction
 	vec2 uv=gl_FragCoord.xy/u_resolution.xy-.5;
