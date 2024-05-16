@@ -24,6 +24,8 @@ uniform float highs;
 
 // Star Nest by Pablo Roman Andrioli
 // License: MIT
+// Originally found at https://www.shadertoy.com/view/XlfGRj
+
 uniform vec2 u_resolution;
 uniform vec2 u_mouse;
 uniform float u_time;
@@ -50,14 +52,10 @@ float saturation;
 void main()
 {
 	// set scaled values
-    // speed = (left_axis_y + 1.0) * speed_scale * -1.;
 	float mix_total = bass + mids + highs;
 	float bass_scale = max(0.1, bass);
 	float mids_scale = max(0.1, mids);
 	float highs_scale = max(0.1, highs);
-	// formuparam = (base_formuparam * 0.5 * (bass / mix_total) +
-	// 			  base_formuparam * 0.2 * (mids / mix_total) +
-	// 			  base_formuparam * 0.3 * (highs / mix_total));
 	formuparam = base_formuparam;
 	speed = base_speed + (rt - lt) * speed_scale;
 
@@ -73,9 +71,7 @@ void main()
 
 	//mouse rotation
     float a1 = .25 + 0.05*smoothstep(-1.0, 1.0, right_axis_y);
-	// float a1=.5+right_axis_y*2.;
     float a2 = .4 + 0.05*smoothstep(-1.0, 1.0, right_axis_x);
-	// float a2=.8+right_axis_y*2.;
 	mat2 rot1=mat2(cos(a1),sin(a1),-sin(a1),cos(a1));
 	mat2 rot2=mat2(cos(a2),sin(a2),-sin(a2),cos(a2));
 	dir.xz*=rot1;
@@ -87,7 +83,6 @@ void main()
 
 	//volumetric rendering
 	float s=0.1;
-	//float fade=1.;
 	vec3 v=vec3(0.);
 	for (int r=0; r<volsteps; r++) {
 		vec3 p=from+s*dir*.5;

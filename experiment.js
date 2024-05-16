@@ -24,10 +24,8 @@ function toggleControlDisplay() {
   const visible = nn.get("#control-page").style.visibility;
   if (visible == 'hidden') {
     nn.get('#control-page').style.visibility = 'visible';
-    // document.getElementsByClassName("button").style.visibility = 'visible';
   } else {
     nn.get('#control-page').style.visibility = 'hidden';
-    // document.getElementsByClassName("button").style.visibility = 'hidden';
   }
 }
 
@@ -40,7 +38,7 @@ let scale_pattern = [2,2,3,2,3]  // Pentatonic scale degrees
 
 /* Global variables */
 let baseVolume = defaultVolume;
-const enableDebug = true;
+const enableDebug = false;
 let sandbox = null;
 
 const effectState = {
@@ -175,9 +173,6 @@ listener.on('gamepad:0:axis:1', event => {
       value, // Current value: Number between -1 and 1. Float in analog mode, integer otherwise.
       gamepad, // Native Gamepad object
   } = event.detail;
-  // var old_val = controllerMap.axes[axis].value;
-  // var new_val = 0.85 * (old_val) + 0.15 * value;
-  // var new_val2 = 0.8 * new_val + 0.2 * value;
   sandbox.setUniform("left_axis_y", value);
   controllerMap.axes[axis].value = value;
 
@@ -577,14 +572,9 @@ nn.get("#toggleHelp").on("click", () => {
   if (visible == 'none') {
     nn.get("#toggleHelp").textContent = "hide controls help";
     nn.get("#instructions").style.display = 'block'
-    // nn.get("#title").style.visibility = 'visible'
-    // nn.get("#instructions").style.visibility = 'visible'
-    // nn.get("#instructions").style.visibility = 'visible'
   } else {
     nn.get("#toggleHelp").textContent = "show controls help";
     nn.get("#instructions").style.display = 'none'
-    // nn.get("#instructions").style.visibility = 'hidden'
-    // nn.get("#instructions").style.visibility = 'hidden'
   }
 
 })
@@ -612,9 +602,7 @@ window.onload = () => {
     const bass_avg = array_avg(freqs, 0, 20);
     const mids_avg = array_avg(freqs, 20, 40);
     const highs_avg = array_avg(freqs, 40, 1024);
-    printf("bass average = " + bass_avg);
-    printf("mids average = " + mids_avg);
-    printf("highs average = " + highs_avg);
+
     sandbox.setUniform("bass", bass_avg);
     sandbox.setUniform("mids", mids_avg);
     sandbox.setUniform("highs", highs_avg);
