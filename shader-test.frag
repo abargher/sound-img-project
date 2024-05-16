@@ -29,7 +29,8 @@ uniform vec2 u_mouse;
 uniform float u_time;
 
 #define iterations 17
-#define formuparam 0.53
+#define base_formuparam 0.53
+float formuparam;
 
 #define volsteps 20
 #define stepsize 0.1
@@ -50,6 +51,11 @@ void main()
 {
 	// set scaled values
     // speed = (left_axis_y + 1.0) * speed_scale * -1.;
+	float mix_total = bass + mids + highs;
+	// formuparam = (base_formuparam * 0.5 * (bass / mix_total) + 
+	// 			  base_formuparam * 0.2 * (mids / mix_total) + 
+	// 			  base_formuparam * 0.3 * (highs / mix_total));
+	formuparam = base_formuparam;
 	speed = base_speed + (rt - lt) * speed_scale;
 	
 	brightness = (-1.0 * right_axis_y) * 0.0015 + base_brightness;

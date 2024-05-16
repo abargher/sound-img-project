@@ -595,8 +595,12 @@ window.onload = () => {
     // FFT analysis
     const freqs = fft.getValue();
     // printf(freqs);
-
-
+    const bass_avg = array_avg(freqs, 0, 400);
+    const mids_avg = array_avg(freqs, 400, 712);
+    const highs_avg = array_avg(freqs, 712, 1024);
+    sandbox.setUniform("bass", bass_avg);
+    sandbox.setUniform("mids", mids_avg);
+    sandbox.setUniform("highs", highs_avg);
   }, 1);
 };
 
