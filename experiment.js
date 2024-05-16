@@ -586,8 +586,6 @@ window.onload = () => {
   setInterval(() => {
     // volume meter refresh
     const val = meter.getValue();
-    // const old_value = meter_value;
-    // const new_value = 0.87 * old_value + 0.13 * val;
     meter_value = val;
     sandbox.setUniform("note_pulse", val);
     // printf("note_pulse value: " + new_value)
@@ -595,9 +593,12 @@ window.onload = () => {
     // FFT analysis
     const freqs = fft.getValue();
     // printf(freqs);
-    const bass_avg = array_avg(freqs, 0, 400);
-    const mids_avg = array_avg(freqs, 400, 712);
-    const highs_avg = array_avg(freqs, 712, 1024);
+    const bass_avg = array_avg(freqs, 0, 20);
+    const mids_avg = array_avg(freqs, 20, 40);
+    const highs_avg = array_avg(freqs, 40, 1024);
+    printf("bass average = " + bass_avg);
+    printf("mids average = " + mids_avg);
+    printf("highs average = " + highs_avg);
     sandbox.setUniform("bass", bass_avg);
     sandbox.setUniform("mids", mids_avg);
     sandbox.setUniform("highs", highs_avg);

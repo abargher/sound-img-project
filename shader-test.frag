@@ -8,7 +8,7 @@ uniform float right_axis_y; //volume
 uniform float left_axis_x; //distortion
 uniform float left_axis_y; //pitch
 
-uniform float rt; //speed up 
+uniform float rt; //speed up
 uniform float lt; //slow down
 float speed;
 
@@ -44,7 +44,7 @@ float formuparam;
 float brightness;
 #define darkmatter 0.300
 #define distfading 0.730
-#define base_saturation 0.850 
+#define base_saturation 0.850
 float saturation;
 
 void main()
@@ -52,12 +52,15 @@ void main()
 	// set scaled values
     // speed = (left_axis_y + 1.0) * speed_scale * -1.;
 	float mix_total = bass + mids + highs;
-	// formuparam = (base_formuparam * 0.5 * (bass / mix_total) + 
-	// 			  base_formuparam * 0.2 * (mids / mix_total) + 
+	float bass_scale = max(0.1, bass);
+	float mids_scale = max(0.1, mids);
+	float highs_scale = max(0.1, highs);
+	// formuparam = (base_formuparam * 0.5 * (bass / mix_total) +
+	// 			  base_formuparam * 0.2 * (mids / mix_total) +
 	// 			  base_formuparam * 0.3 * (highs / mix_total));
 	formuparam = base_formuparam;
 	speed = base_speed + (rt - lt) * speed_scale;
-	
+
 	brightness = (-1.0 * right_axis_y) * 0.0015 + base_brightness;
 	saturation = abs(left_axis_x) * 0.8 + base_saturation;
 	float fade = note_pulse + 0.3;
@@ -100,7 +103,7 @@ void main()
 		if (r>6) fade*=1.-dm; // dark matter, don't render near
 		//v+=vec3(dm,dm*.5,0.);
 		v+=fade;
-		v+=vec3(s,s*s,s*s*s*s)*a*brightness*fade; // coloring based on distance
+		v+=vec3(s*bass_scale*6.,s*s*mids_scale*6.,s*s*s*s*highs_scale*6.)*a*brightness*fade; // coloring based on distance
 		fade*=distfading; // distance fading
 		s+=stepsize;
 	}
