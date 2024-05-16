@@ -423,6 +423,22 @@ listener.on('gamepad:0:button:2', event => {
   }
 });
 
+listener.on('gamepad:0:button:3', event => {
+  const {
+      index,// Gamepad index: Number [0-3].
+      button, // Button index: Number [0-N].
+      value, // Current value: Number between 0 and 1. Float in analog mode, integer otherwise.
+      pressed, // Native GamepadButton pressed value: Boolean.
+      gamepad, // Native Gamepad object
+  } = event.detail;
+  controllerMap.buttons[button].pressed = pressed
+  controllerMap.buttons[button].value = value
+  if (pressed) {
+    nn.get("#keys").value = currKeySet.up
+    updateKey();
+  }
+});
+
 
 // Left and Right bumper show/hide screen controls
 listener.on('gamepad:0:button:4', event => {

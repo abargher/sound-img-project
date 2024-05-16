@@ -40,7 +40,7 @@ float formuparam;
 #define base_speed  0.010
 #define speed_scale 0.005
 
-#define base_brightness 0.002
+#define base_brightness 0.0023
 float brightness;
 #define darkmatter 0.300
 #define distfading 0.730
