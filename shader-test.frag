@@ -52,7 +52,6 @@ float saturation;
 void main()
 {
 	// set scaled values
-	float mix_total = bass + mids + highs;
 	float bass_scale = max(0.1, bass);
 	float mids_scale = max(0.1, mids);
 	float highs_scale = max(0.1, highs);
@@ -69,7 +68,7 @@ void main()
 	vec3 dir=vec3(uv*zoom,1.);
 	float time=u_time*speed+.25;
 
-	//mouse rotation
+	// right stick rotation
     float a1 = .25 + 0.05*smoothstep(-1.0, 1.0, right_axis_y);
     float a2 = .4 + 0.05*smoothstep(-1.0, 1.0, right_axis_x);
 	mat2 rot1=mat2(cos(a1),sin(a1),-sin(a1),cos(a1));
@@ -96,9 +95,10 @@ void main()
 		float dm=max(0.,darkmatter-a*a*.001); //dark matter
 		a*=a*a; // add contrast
 		if (r>6) fade*=1.-dm; // dark matter, don't render near
-		//v+=vec3(dm,dm*.5,0.);
 		v+=fade;
-		v+=vec3(s*bass_scale*6.,s*s*mids_scale*6.,s*s*s*s*highs_scale*6.)*a*brightness*fade; // coloring based on distance
+
+		// coloring based on distance and pitch buckets
+		v+=vec3(s*bass_scale*6.,s*s*mids_scale*6.,s*s*s*s*highs_scale*6.)*a*brightness*fade;
 		fade*=distfading; // distance fading
 		s+=stepsize;
 	}

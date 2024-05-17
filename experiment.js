@@ -2,7 +2,7 @@
 // import * as Tone from "https://tonejs.github.io/build/Tone.js";
 /* global nn, Tone */
 
-function printf (out) {
+function printf(out) {
   if (enableDebug) {
     console.log(out)
   }
@@ -34,7 +34,7 @@ const defaultTempo = 90;
 const defaultNoteCount = 16;
 const defaultVolume = 0.5;  // expressed as a gain value
 const defaultArpegg = 0.1;
-let scale_pattern = [2,2,3,2,3]  // Pentatonic scale degrees
+let scale_pattern = [2, 2, 3, 2, 3]  // Pentatonic scale degrees
 
 /* Global variables */
 let baseVolume = defaultVolume;
@@ -42,29 +42,32 @@ const enableDebug = false;
 let sandbox = null;
 
 const effectState = {
-  tempo : defaultTempo,
-  reverb : 0,
-  volume : defaultVolume,
-  pitch : 0,
-  scale : createScale("keyC", scale_pattern),
-  arpegg : defaultArpegg,
+  tempo: defaultTempo,
+  reverb: 0,
+  volume: defaultVolume,
+  pitch: 0,
+  scale: createScale("keyC", scale_pattern),
+  arpegg: defaultArpegg,
 };
 
 const keySets = [
-  { up    : "keyC",
-    right : "keyA",
-    down  : "keyGb",
-    left  : "keyEb"
+  {
+    up: "keyC",
+    right: "keyA",
+    down: "keyGb",
+    left: "keyEb"
   },
-  { up    : "keyG",
-    right : "keyE",
-    down  : "keyDb",
-    left  : "keyBb"
+  {
+    up: "keyG",
+    right: "keyE",
+    down: "keyDb",
+    left: "keyBb"
   },
-  { up    : "keyD",
-    right : "keyB",
-    down  : "keyAb",
-    left  : "keyF"
+  {
+    up: "keyD",
+    right: "keyB",
+    down: "keyAb",
+    left: "keyF"
   }
 ]
 
@@ -114,31 +117,31 @@ listener.on('gamepad:connected', event => {
 
 let controllerMap = {
   buttons: [
-    {index:  0, pressed: false, value: 0},
-    {index:  1, pressed: false, value: 0},
-    {index:  2, pressed: false, value: 0},
-    {index:  3, pressed: false, value: 0},
-    {index:  4, pressed: false, value: 0},
-    {index:  5, pressed: false, value: 0},
-    {index:  6, pressed: false, value: 0},
-    {index:  7, pressed: false, value: 0},
-    {index:  8, pressed: false, value: 0},
-    {index:  9, pressed: false, value: 0},
-    {index: 10, pressed: false, value: 0},
-    {index: 11, pressed: false, value: 0},
-    {index: 12, pressed: false, value: 0},
-    {index: 13, pressed: false, value: 0},
-    {index: 14, pressed: false, value: 0},
-    {index: 15, pressed: false, value: 0},
-    {index: 16, pressed: false, value: 0},
-    {index: 17, pressed: false, value: 0},
-    {index: 18, pressed: false, value: 0}
+    { index: 0, pressed: false, value: 0 },
+    { index: 1, pressed: false, value: 0 },
+    { index: 2, pressed: false, value: 0 },
+    { index: 3, pressed: false, value: 0 },
+    { index: 4, pressed: false, value: 0 },
+    { index: 5, pressed: false, value: 0 },
+    { index: 6, pressed: false, value: 0 },
+    { index: 7, pressed: false, value: 0 },
+    { index: 8, pressed: false, value: 0 },
+    { index: 9, pressed: false, value: 0 },
+    { index: 10, pressed: false, value: 0 },
+    { index: 11, pressed: false, value: 0 },
+    { index: 12, pressed: false, value: 0 },
+    { index: 13, pressed: false, value: 0 },
+    { index: 14, pressed: false, value: 0 },
+    { index: 15, pressed: false, value: 0 },
+    { index: 16, pressed: false, value: 0 },
+    { index: 17, pressed: false, value: 0 },
+    { index: 18, pressed: false, value: 0 }
   ],
   axes: [
-    {value: 0},
-    {value: 0},
-    {value: 0},
-    {value: 0}
+    { value: 0 },
+    { value: 0 },
+    { value: 0 },
+    { value: 0 }
   ]
 }
 
@@ -152,10 +155,10 @@ let controllerMap = {
 
 listener.on('gamepad:0:axis:0', event => {
   const {
-      index,// Gamepad index: Number [0-3].
-      axis, // Axis index: Number [0-N].
-      value, // Current value: Number between -1 and 1. Float in analog mode, integer otherwise.
-      gamepad, // Native Gamepad object
+    index,// Gamepad index: Number [0-3].
+    axis, // Axis index: Number [0-N].
+    value, // Current value: Number between -1 and 1. Float in analog mode, integer otherwise.
+    gamepad, // Native Gamepad object
   } = event.detail;
   var old_val = controllerMap.axes[axis].value;
   var new_val = 0.85 * (old_val) + 0.15 * value;
@@ -163,15 +166,15 @@ listener.on('gamepad:0:axis:0', event => {
   sandbox.setUniform("left_axis_x", new_val);
   printf(`axis ${axis} value = ${value}`)
   // change distortion
-  distort.distortion = Math.abs(value/8)
+  distort.distortion = Math.abs(value / 8)
 });
 
 listener.on('gamepad:0:axis:1', event => {
   const {
-      index,// Gamepad index: Number [0-3].
-      axis, // Axis index: Number [0-N].
-      value, // Current value: Number between -1 and 1. Float in analog mode, integer otherwise.
-      gamepad, // Native Gamepad object
+    index,// Gamepad index: Number [0-3].
+    axis, // Axis index: Number [0-N].
+    value, // Current value: Number between -1 and 1. Float in analog mode, integer otherwise.
+    gamepad, // Native Gamepad object
   } = event.detail;
   sandbox.setUniform("left_axis_y", value);
   controllerMap.axes[axis].value = value;
@@ -182,10 +185,10 @@ listener.on('gamepad:0:axis:1', event => {
 
 listener.on('gamepad:0:axis:2', event => {
   const {
-      index,// Gamepad index: Number [0-3].
-      axis, // Axis index: Number [0-N].
-      value, // Current value: Number between -1 and 1. Float in analog mode, integer otherwise.
-      gamepad, // Native Gamepad object
+    index,// Gamepad index: Number [0-3].
+    axis, // Axis index: Number [0-N].
+    value, // Current value: Number between -1 and 1. Float in analog mode, integer otherwise.
+    gamepad, // Native Gamepad object
   } = event.detail;
   printf(`axis ${axis} value = ${value}`)
   var old_val = controllerMap.axes[axis].value;
@@ -199,10 +202,10 @@ listener.on('gamepad:0:axis:2', event => {
 // Left stick click
 listener.on('gamepad:0:button:10', event => {
   const {
-      index,// Gamepad index: Number [0-3].
-      axis, // Axis index: Number [0-N].
-      value, // Current value: Number between -1 and 1. Float in analog mode, integer otherwise.
-      gamepad, // Native Gamepad object
+    index,// Gamepad index: Number [0-3].
+    axis, // Axis index: Number [0-N].
+    value, // Current value: Number between -1 and 1. Float in analog mode, integer otherwise.
+    gamepad, // Native Gamepad object
   } = event.detail;
   controllerMap.axes[0].value = 0;
   controllerMap.axes[1].value = 0;
@@ -211,10 +214,10 @@ listener.on('gamepad:0:button:10', event => {
 // Right stick click
 listener.on('gamepad:0:button:11', event => {
   const {
-      index,// Gamepad index: Number [0-3].
-      axis, // Axis index: Number [0-N].
-      value, // Current value: Number between -1 and 1. Float in analog mode, integer otherwise.
-      gamepad, // Native Gamepad object
+    index,// Gamepad index: Number [0-3].
+    axis, // Axis index: Number [0-N].
+    value, // Current value: Number between -1 and 1. Float in analog mode, integer otherwise.
+    gamepad, // Native Gamepad object
   } = event.detail;
   controllerMap.axes[2].value = 0;
   controllerMap.axes[3].value = 0;
@@ -222,10 +225,10 @@ listener.on('gamepad:0:button:11', event => {
 
 listener.on('gamepad:0:axis:3', event => {
   const {
-      index,// Gamepad index: Number [0-3].
-      axis, // Axis index: Number [0-N].
-      value, // Current value: Number between -1 and 1. Float in analog mode, integer otherwise.
-      gamepad, // Native Gamepad object
+    index,// Gamepad index: Number [0-3].
+    axis, // Axis index: Number [0-N].
+    value, // Current value: Number between -1 and 1. Float in analog mode, integer otherwise.
+    gamepad, // Native Gamepad object
   } = event.detail;
   var old_val = controllerMap.axes[axis].value;
   var new_val = 0.85 * (old_val) + 0.15 * value;
@@ -242,11 +245,11 @@ listener.on('gamepad:0:axis:3', event => {
 // Left trigger -- tempo down
 listener.on('gamepad:0:button:6', event => {
   const {
-      index,// Gamepad index: Number [0-3].
-      button, // Button index: Number [0-N].
-      value, // Current value: Number between 0 and 1. Float in analog mode, integer otherwise.
-      pressed, // Native GamepadButton pressed value: Boolean.
-      gamepad, // Native Gamepad object
+    index,// Gamepad index: Number [0-3].
+    button, // Button index: Number [0-N].
+    value, // Current value: Number between 0 and 1. Float in analog mode, integer otherwise.
+    pressed, // Native GamepadButton pressed value: Boolean.
+    gamepad, // Native Gamepad object
   } = event.detail;
   const old_val = controllerMap.buttons[button].value;
   const new_val = 0.30 * old_val + 0.70 * value;
@@ -264,11 +267,11 @@ listener.on('gamepad:0:button:6', event => {
 // Right trigger -- tempo up
 listener.on('gamepad:0:button:7', event => {
   const {
-      index,// Gamepad index: Number [0-3].
-      button, // Button index: Number [0-N].
-      value, // Current value: Number between 0 and 1. Float in analog mode, integer otherwise.
-      pressed, // Native GamepadButton pressed value: Boolean.
-      gamepad, // Native Gamepad object
+    index,// Gamepad index: Number [0-3].
+    button, // Button index: Number [0-N].
+    value, // Current value: Number between 0 and 1. Float in analog mode, integer otherwise.
+    pressed, // Native GamepadButton pressed value: Boolean.
+    gamepad, // Native Gamepad object
   } = event.detail;
   const old_val = controllerMap.buttons[button].value;
   const new_val = 0.30 * old_val + 0.70 * value;
@@ -286,16 +289,16 @@ listener.on('gamepad:0:button:7', event => {
 // dpad Up, increase octave
 listener.on('gamepad:0:button:12', event => {
   const {
-      index,// Gamepad index: Number [0-3].
-      button, // Button index: Number [0-N].
-      value, // Current value: Number between 0 and 1. Float in analog mode, integer otherwise.
-      pressed, // Native GamepadButton pressed value: Boolean.
-      gamepad, // Native Gamepad object
+    index,// Gamepad index: Number [0-3].
+    button, // Button index: Number [0-N].
+    value, // Current value: Number between 0 and 1. Float in analog mode, integer otherwise.
+    pressed, // Native GamepadButton pressed value: Boolean.
+    gamepad, // Native Gamepad object
   } = event.detail;
   controllerMap.buttons[button].pressed = pressed
   controllerMap.buttons[button].value = value
   if (pressed) {
-    let currOctave = Number (nn.get("#octaves").value.slice(-1))
+    let currOctave = Number(nn.get("#octaves").value.slice(-1))
     let newOctave_num = (Math.min(6, currOctave + 1));
     let newOctave = "octave" + newOctave_num;
     nn.get("#octaves").value = newOctave
@@ -306,16 +309,16 @@ listener.on('gamepad:0:button:12', event => {
 // dpad Down, decrease octave
 listener.on('gamepad:0:button:13', event => {
   const {
-      index,// Gamepad index: Number [0-3].
-      button, // Button index: Number [0-N].
-      value, // Current value: Number between 0 and 1. Float in analog mode, integer otherwise.
-      pressed, // Native GamepadButton pressed value: Boolean.
-      gamepad, // Native Gamepad object
+    index,// Gamepad index: Number [0-3].
+    button, // Button index: Number [0-N].
+    value, // Current value: Number between 0 and 1. Float in analog mode, integer otherwise.
+    pressed, // Native GamepadButton pressed value: Boolean.
+    gamepad, // Native Gamepad object
   } = event.detail;
   controllerMap.buttons[button].pressed = pressed
   controllerMap.buttons[button].value = value
   if (pressed) {
-    let currOctave = Number (nn.get("#octaves").value.slice(-1))
+    let currOctave = Number(nn.get("#octaves").value.slice(-1))
     let newOctave_num = (Math.max(1, currOctave - 1));
     let newOctave = "octave" + newOctave_num;
     nn.get("#octaves").value = newOctave
@@ -326,16 +329,16 @@ listener.on('gamepad:0:button:13', event => {
 // dpad Left, cycle key set left
 listener.on('gamepad:0:button:14', event => {
   const {
-      index,// Gamepad index: Number [0-3].
-      button, // Button index: Number [0-N].
-      value, // Current value: Number between 0 and 1. Float in analog mode, integer otherwise.
-      pressed, // Native GamepadButton pressed value: Boolean.
-      gamepad, // Native Gamepad object
+    index,// Gamepad index: Number [0-3].
+    button, // Button index: Number [0-N].
+    value, // Current value: Number between 0 and 1. Float in analog mode, integer otherwise.
+    pressed, // Native GamepadButton pressed value: Boolean.
+    gamepad, // Native Gamepad object
   } = event.detail;
   controllerMap.buttons[button].pressed = pressed
   controllerMap.buttons[button].value = value
   if (pressed) {
-    let currSet = Number (nn.get("#keySets").value.slice(-1));
+    let currSet = Number(nn.get("#keySets").value.slice(-1));
     let newSet = mod((currSet - 1), 3)
     printf(`old set: ${currSet} new set: ${newSet}`)
     nn.get("#keySets").value = "keySet" + newSet
@@ -346,16 +349,16 @@ listener.on('gamepad:0:button:14', event => {
 // dpad Right, cycle key set right
 listener.on('gamepad:0:button:15', event => {
   const {
-      index,// Gamepad index: Number [0-3].
-      button, // Button index: Number [0-N].
-      value, // Current value: Number between 0 and 1. Float in analog mode, integer otherwise.
-      pressed, // Native GamepadButton pressed value: Boolean.
-      gamepad, // Native Gamepad object
+    index,// Gamepad index: Number [0-3].
+    button, // Button index: Number [0-N].
+    value, // Current value: Number between 0 and 1. Float in analog mode, integer otherwise.
+    pressed, // Native GamepadButton pressed value: Boolean.
+    gamepad, // Native Gamepad object
   } = event.detail;
   controllerMap.buttons[button].pressed = pressed
   controllerMap.buttons[button].value = value
   if (pressed) {
-    let currSet = Number (nn.get("#keySets").value.slice(-1));
+    let currSet = Number(nn.get("#keySets").value.slice(-1));
     let newSet = mod((currSet + 1), 3)
     printf(`old set: ${currSet} new set: ${newSet}`)
     nn.get("#keySets").value = "keySet" + newSet
@@ -371,11 +374,11 @@ function updateKey() {
 
 listener.on('gamepad:0:button:0', event => {
   const {
-      index,// Gamepad index: Number [0-3].
-      button, // Button index: Number [0-N].
-      value, // Current value: Number between 0 and 1. Float in analog mode, integer otherwise.
-      pressed, // Native GamepadButton pressed value: Boolean.
-      gamepad, // Native Gamepad object
+    index,// Gamepad index: Number [0-3].
+    button, // Button index: Number [0-N].
+    value, // Current value: Number between 0 and 1. Float in analog mode, integer otherwise.
+    pressed, // Native GamepadButton pressed value: Boolean.
+    gamepad, // Native Gamepad object
   } = event.detail;
   controllerMap.buttons[button].pressed = pressed
   controllerMap.buttons[button].value = value
@@ -387,11 +390,11 @@ listener.on('gamepad:0:button:0', event => {
 
 listener.on('gamepad:0:button:1', event => {
   const {
-      index,// Gamepad index: Number [0-3].
-      button, // Button index: Number [0-N].
-      value, // Current value: Number between 0 and 1. Float in analog mode, integer otherwise.
-      pressed, // Native GamepadButton pressed value: Boolean.
-      gamepad, // Native Gamepad object
+    index,// Gamepad index: Number [0-3].
+    button, // Button index: Number [0-N].
+    value, // Current value: Number between 0 and 1. Float in analog mode, integer otherwise.
+    pressed, // Native GamepadButton pressed value: Boolean.
+    gamepad, // Native Gamepad object
   } = event.detail;
   controllerMap.buttons[button].pressed = pressed
   controllerMap.buttons[button].value = value
@@ -404,11 +407,11 @@ listener.on('gamepad:0:button:1', event => {
 
 listener.on('gamepad:0:button:2', event => {
   const {
-      index,// Gamepad index: Number [0-3].
-      button, // Button index: Number [0-N].
-      value, // Current value: Number between 0 and 1. Float in analog mode, integer otherwise.
-      pressed, // Native GamepadButton pressed value: Boolean.
-      gamepad, // Native Gamepad object
+    index,// Gamepad index: Number [0-3].
+    button, // Button index: Number [0-N].
+    value, // Current value: Number between 0 and 1. Float in analog mode, integer otherwise.
+    pressed, // Native GamepadButton pressed value: Boolean.
+    gamepad, // Native Gamepad object
   } = event.detail;
   controllerMap.buttons[button].pressed = pressed
   controllerMap.buttons[button].value = value
@@ -420,11 +423,11 @@ listener.on('gamepad:0:button:2', event => {
 
 listener.on('gamepad:0:button:3', event => {
   const {
-      index,// Gamepad index: Number [0-3].
-      button, // Button index: Number [0-N].
-      value, // Current value: Number between 0 and 1. Float in analog mode, integer otherwise.
-      pressed, // Native GamepadButton pressed value: Boolean.
-      gamepad, // Native Gamepad object
+    index,// Gamepad index: Number [0-3].
+    button, // Button index: Number [0-N].
+    value, // Current value: Number between 0 and 1. Float in analog mode, integer otherwise.
+    pressed, // Native GamepadButton pressed value: Boolean.
+    gamepad, // Native Gamepad object
   } = event.detail;
   controllerMap.buttons[button].pressed = pressed
   controllerMap.buttons[button].value = value
@@ -438,11 +441,11 @@ listener.on('gamepad:0:button:3', event => {
 // Left and Right bumper show/hide screen controls
 listener.on('gamepad:0:button:4', event => {
   const {
-      index,// Gamepad index: Number [0-3].
-      button, // Button index: Number [0-N].
-      value, // Current value: Number between 0 and 1. Float in analog mode, integer otherwise.
-      pressed, // Native GamepadButton pressed value: Boolean.
-      gamepad, // Native Gamepad object
+    index,// Gamepad index: Number [0-3].
+    button, // Button index: Number [0-N].
+    value, // Current value: Number between 0 and 1. Float in analog mode, integer otherwise.
+    pressed, // Native GamepadButton pressed value: Boolean.
+    gamepad, // Native Gamepad object
   } = event.detail;
   if (pressed) {
     toggleControlDisplay();
@@ -450,11 +453,11 @@ listener.on('gamepad:0:button:4', event => {
 });
 listener.on('gamepad:0:button:5', event => {
   const {
-      index,// Gamepad index: Number [0-3].
-      button, // Button index: Number [0-N].
-      value, // Current value: Number between 0 and 1. Float in analog mode, integer otherwise.
-      pressed, // Native GamepadButton pressed value: Boolean.
-      gamepad, // Native Gamepad object
+    index,// Gamepad index: Number [0-3].
+    button, // Button index: Number [0-N].
+    value, // Current value: Number between 0 and 1. Float in analog mode, integer otherwise.
+    pressed, // Native GamepadButton pressed value: Boolean.
+    gamepad, // Native Gamepad object
   } = event.detail;
   if (pressed) {
     toggleControlDisplay();
@@ -469,11 +472,11 @@ function randomizeMelody() {
 // Select = randomize melody
 listener.on('gamepad:0:button:8', event => {
   const {
-      index,// Gamepad index: Number [0-3].
-      button, // Button index: Number [0-N].
-      value, // Current value: Number between 0 and 1. Float in analog mode, integer otherwise.
-      pressed, // Native GamepadButton pressed value: Boolean.
-      gamepad, // Native Gamepad object
+    index,// Gamepad index: Number [0-3].
+    button, // Button index: Number [0-N].
+    value, // Current value: Number between 0 and 1. Float in analog mode, integer otherwise.
+    pressed, // Native GamepadButton pressed value: Boolean.
+    gamepad, // Native Gamepad object
   } = event.detail;
   controllerMap.buttons[button].pressed = pressed
   controllerMap.buttons[button].value = value
@@ -485,11 +488,11 @@ listener.on('gamepad:0:button:8', event => {
 // Start = play/pause
 listener.on('gamepad:0:button:9', event => {
   const {
-      index,// Gamepad index: Number [0-3].
-      button, // Button index: Number [0-N].
-      value, // Current value: Number between 0 and 1. Float in analog mode, integer otherwise.
-      pressed, // Native GamepadButton pressed value: Boolean.
-      gamepad, // Native Gamepad object
+    index,// Gamepad index: Number [0-3].
+    button, // Button index: Number [0-N].
+    value, // Current value: Number between 0 and 1. Float in analog mode, integer otherwise.
+    pressed, // Native GamepadButton pressed value: Boolean.
+    gamepad, // Native Gamepad object
   } = event.detail;
   controllerMap.buttons[button].pressed = pressed
   controllerMap.buttons[button].value = value
@@ -501,10 +504,10 @@ listener.on('gamepad:0:button:9', event => {
   }
 });
 
-function startPolling () {
+function startPolling() {
   listener.start()
 }
-function stopPolling () {
+function stopPolling() {
   listener.stop();
 }
 
@@ -518,7 +521,7 @@ nn.get("#randomize").on("click", randomizeMelody);
 nn.get("#play-pause").on("input", () => {
   toggleScale();
   Tone.start();
-  sandbox.setUniform("bg_color",1,0.5,0,1.0);
+  sandbox.setUniform("bg_color", 1, 0.5, 0, 1.0);
 })
 
 
@@ -527,7 +530,8 @@ nn.get("#tempo").on("input", () => {
   let newTempo = Number(nn.get("#tempo").value);
   Tone.Transport.bpm.value = newTempo
   effectState.tempo = newTempo
-  printf(`tempo changed to ${newTempo}`)})
+  printf(`tempo changed to ${newTempo}`)
+})
 
 nn.get("#tempoReset").on("click", () => {
   nn.get("#tempo").value = defaultTempo;

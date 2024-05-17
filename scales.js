@@ -15,7 +15,7 @@ const keyMap = {
 }
 
 function createScale(key, pattern) {
-  let root = keyMap[key] + nn.get("#octaves").value.slice(-1); 
+  let root = keyMap[key] + nn.get("#octaves").value.slice(-1);
   const scale = [root]
   let note = root.slice(0, -1) // ex: 'C' from 'C4'
   let octave = parseInt(root.slice(-1)) // ex: 4 from 'C4'
@@ -55,7 +55,7 @@ function getRandomNoteLength() {
   return nn.random(noteLengths);
 }
 
-function randomizeSequence (noteCount, arpeggChance) {
+function randomizeSequence(noteCount, arpeggChance) {
   scaleState.sequence = [] // clear the last sequence
   if (Tone.Transport.state === 'started') Tone.Transport.stop()
   generateMelody(noteCount, arpeggChance);
@@ -71,9 +71,9 @@ function toggleScale() {
   }
 }
 
-function getNote (degree, octaveOffset, scale) {
+function getNote(degree, octaveOffset, scale) {
   let note = scale[degree % scale.length]
-  let pitch = note.slice(0,-1);
+  let pitch = note.slice(0, -1);
   let octave = parseInt(nn.get("#octaves").value.slice(-1)) + octaveOffset
   return pitch + `${octave}`
 }
@@ -91,26 +91,26 @@ function play(time, instr, scale) {
 
 function randomNote() {
   return {
-    degree : nn.randomInt(0, 7),  // scale degree = note played
-    octaveOffset : nn.randomInt(0, 1),  // add to base octave
-    duration : getRandomNoteLength(),  // e.g. '2n', '8n', etc
-    play : Boolean(nn.randomInt(0, 1)),  // is this a rest?
+    degree: nn.randomInt(0, 7),  // scale degree = note played
+    octaveOffset: nn.randomInt(0, 1),  // add to base octave
+    duration: getRandomNoteLength(),  // e.g. '2n', '8n', etc
+    play: Boolean(nn.randomInt(0, 1)),  // is this a rest?
   };
 }
 
-function generateMelody (noteCount, arpeggChance) {
+function generateMelody(noteCount, arpeggChance) {
   const melody = [];
-  for (let i = 0; i < noteCount; i++){
+  for (let i = 0; i < noteCount; i++) {
     if (nn.random() < arpeggChance) {
       let start = nn.randomInt(0, 7);
       let octave = nn.randomInt(0, 1);
       let len = getRandomNoteLength();
       for (let j = 0; j < 3; j++) {
         melody.push({
-          degree : (start + j) % 8,
-          octaveOffset : octave,
-          duration : len,
-          play : true,
+          degree: (start + j) % 8,
+          octaveOffset: octave,
+          duration: len,
+          play: true,
         });
       }
     } else {
